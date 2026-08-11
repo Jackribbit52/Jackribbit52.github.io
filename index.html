@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marco Antonio Amador — Full-Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F1F38;
+    --navy-2:#16294A;
+    --navy-3:#1D3253;
+    --paper:#F3F6FA;
+    --cyan:#7FB3D5;
+    --cyan-dim:rgba(127,179,213,0.28);
+    --amber:#E8A33D;
+    --slate:#8DA0BC;
+    --green:#4C9A6A;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --maxw: 1080px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--navy);
+    color:var(--paper);
+    font-family:var(--body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--amber); color:var(--navy);}
+
+  a{color:inherit; text-decoration:none;}
+
+  :focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+  }
+
+  /* ---------- background grid ---------- */
+  .grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    background-image:
+      linear-gradient(var(--cyan-dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--cyan-dim) 1px, transparent 1px);
+    background-size: 44px 44px;
+    opacity:0.12;
+    pointer-events:none;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    backdrop-filter:blur(10px);
+    background:rgba(15,31,56,0.82);
+    border-bottom:1px solid rgba(127,179,213,0.18);
+  }
+  nav{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:16px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:var(--mono);
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 8px var(--green);
+    flex-shrink:0;
+  }
+  .nav-links{
+    display:flex;
+    gap:28px;
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.02em;
+  }
+  .nav-links a{
+    color:var(--slate);
+    transition:color .2s ease;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--paper);}
+  .nav-cta{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:8px 16px;
+    border:1px solid var(--amber);
+    color:var(--amber);
+    border-radius:3px;
+    transition:all .2s ease;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--amber); color:var(--navy);}
+
+  .nav-toggle{display:none;}
+
+  /* ---------- sheet frame (signature device) ---------- */
+  .sheet{
+    position:relative;
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:100px 24px 90px;
+    z-index:1;
+  }
+  .sheet::before{
+    content:"";
+    position:absolute;
+    top:60px; left:0;
+    width:14px; height:14px;
+    border-color:var(--cyan);
+    border-style:solid;
+    border-width:1px 0 0 1px;
+    opacity:0.55;
+  }
+  .sheet::after{
+    content:"";
+    position:absolute;
+    bottom:24px; right:24px;
+    width:14px; height:14px;
+    border-color:var(--cyan);
+    border-style:solid;
+    border-width:0 1px 1px 0;
+    opacity:0.55;
+  }
+  .sheet-label{
+    position:absolute;
+    top:70px;
+    left:24px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.12em;
+    color:var(--cyan);
+    opacity:0.7;
+    text-transform:uppercase;
+  }
+  .sheet-label span{color:var(--slate);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:70px;
+  }
+  .hero .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--amber);
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .hero .eyebrow::before{
+    content:"";
+    width:28px; height:1px;
+    background:var(--amber);
+  }
+  .hero h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(2.4rem, 7vw, 5rem);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 .accent{color:var(--cyan);}
+  .hero p.role{
+    font-family:var(--body);
+    font-size:clamp(1.05rem, 2.4vw, 1.35rem);
+    color:var(--slate);
+    max-width:600px;
+    margin-top:22px;
+  }
+
+  /* dimension-line stat row */
+  .dims{
+    margin-top:56px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    border-top:1px solid rgba(127,179,213,0.25);
+  }
+  .dim{
+    flex:1 1 150px;
+    padding:18px 20px 0 0;
+    position:relative;
+  }
+  .dim::before{
+    content:"";
+    position:absolute;
+    top:-1px; left:0;
+    width:100%;
+    height:1px;
+    background:var(--amber);
+    transform:scaleX(0);
+    transform-origin:left;
+    animation:drawline 1s ease forwards;
+    animation-delay:0.4s;
+  }
+  @keyframes drawline{ to{transform:scaleX(1);} }
+  .dim .num{
+    font-family:var(--mono);
+    font-size:clamp(1.4rem, 3vw, 1.9rem);
+    font-weight:600;
+    color:var(--paper);
+  }
+  .dim .lbl{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-top:6px;
+  }
+
+  .scroll-cue{
+    margin-top:70px;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--slate);
+    letter-spacing:0.1em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .scroll-cue .line{
+    width:1px; height:34px;
+    background:linear-gradient(var(--cyan), transparent);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:.3;} 50%{opacity:1;} }
+
+  /* ---------- section heading ---------- */
+  h2.section-title{
+    font-family:var(--display);
+    font-size:clamp(1.6rem, 4vw, 2.3rem);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .section-sub{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--slate);
+    margin-bottom:48px;
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  .about-text p{
+    color:var(--slate);
+    font-size:1.02rem;
+    margin-bottom:16px;
+  }
+  .about-text strong{color:var(--paper); font-weight:600;}
+  .edu-card{
+    background:var(--navy-2);
+    border:1px solid rgba(127,179,213,0.18);
+    border-radius:6px;
+    padding:24px;
+  }
+  .edu-card .school{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.05rem;
+  }
+  .edu-card .deg{
+    color:var(--slate);
+    font-size:0.92rem;
+    margin-top:6px;
+  }
+  .edu-card .tag-row{
+    margin-top:16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:3px;
+    background:rgba(127,179,213,0.12);
+    color:var(--cyan);
+    letter-spacing:0.02em;
+  }
+  .tag.amber{background:rgba(232,163,61,0.14); color:var(--amber);}
+
+  /* ---------- projects ---------- */
+  .projects{
+    position:relative;
+  }
+  .project-list{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .project{
+    position:relative;
+    padding:32px 0;
+    border-top:1px solid rgba(127,179,213,0.18);
+    display:grid;
+    grid-template-columns: 90px 1fr;
+    gap:28px;
+  }
+  .project:last-child{border-bottom:1px solid rgba(127,179,213,0.18);}
+  .project-index{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--cyan);
+    opacity:0.6;
+    padding-top:4px;
+  }
+  .project-body h3{
+    font-family:var(--display);
+    font-size:1.35rem;
+    font-weight:600;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    gap:10px;
+  }
+  .project-body h3 .stack{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--amber);
+    font-weight:400;
+  }
+  .project-body ul{
+    margin-top:14px;
+    padding-left:18px;
+    color:var(--slate);
+  }
+  .project-body li{margin-bottom:8px;}
+  .project-body li strong{color:var(--paper); font-weight:600;}
+  .project-links{
+    margin-top:16px;
+    display:flex;
+    gap:16px;
+    font-family:var(--mono);
+    font-size:12px;
+  }
+  .project-links a{
+    color:var(--cyan);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease;
+  }
+  .project-links a:hover{border-color:var(--cyan);}
+  .placeholder-note{color:var(--slate); opacity:0.7; font-style:italic;}
+
+  /* ---------- skills ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  .skill-group{
+    background:var(--navy-2);
+    border:1px solid rgba(127,179,213,0.18);
+    border-radius:6px;
+    padding:22px;
+  }
+  .skill-group .grp-title{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--amber);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-bottom:14px;
+  }
+  .skill-group .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  /* ---------- experience timeline ---------- */
+  .timeline{
+    position:relative;
+    padding-left:28px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:4px; top:6px; bottom:6px;
+    width:1px;
+    background:linear-gradient(var(--cyan), transparent 95%);
+  }
+  .tl-item{
+    position:relative;
+    padding-bottom:40px;
+  }
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:"";
+    position:absolute;
+    left:-28px; top:4px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--navy);
+    border:2px solid var(--amber);
+  }
+  .tl-item .role-line{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px;
+  }
+  .tl-item h3{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.1rem;
+  }
+  .tl-item .org{color:var(--cyan); font-size:0.95rem; margin-top:2px;}
+  .tl-item .when{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--slate);
+    white-space:nowrap;
+  }
+  .tl-item ul{
+    margin-top:12px;
+    padding-left:18px;
+    color:var(--slate);
+    font-size:0.95rem;
+  }
+  .tl-item li{margin-bottom:6px;}
+
+  /* ---------- contact / footer ---------- */
+  .contact{
+    text-align:center;
+    padding-top:20px;
+  }
+  .contact h2.section-title{margin-bottom:16px;}
+  .contact p{
+    color:var(--slate);
+    max-width:480px;
+    margin:0 auto 36px;
+  }
+  .contact-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .contact-links a{
+    font-family:var(--mono);
+    font-size:14px;
+    padding:12px 22px;
+    border:1px solid rgba(127,179,213,0.35);
+    border-radius:4px;
+    color:var(--paper);
+    transition:all .2s ease;
+  }
+  .contact-links a.primary{
+    background:var(--amber);
+    border-color:var(--amber);
+    color:var(--navy);
+    font-weight:600;
+  }
+  .contact-links a:not(.primary):hover{
+    border-color:var(--cyan);
+    color:var(--cyan);
+  }
+  .contact-links a.primary:hover{
+    background:transparent;
+    color:var(--amber);
+  }
+
+  footer{
+    text-align:center;
+    padding:40px 24px 50px;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--slate);
+    opacity:0.6;
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:760px){
+    .nav-links{display:none;}
+    .sheet{padding:90px 20px 70px;}
+    .about-grid{grid-template-columns:1fr; gap:32px;}
+    .skills-grid{grid-template-columns:1fr;}
+    .project{grid-template-columns:1fr; gap:10px;}
+    .project-index{opacity:0.5;}
+    .dims{flex-direction:column;}
+    .dim{padding:14px 0 0 0;}
+    .nav-cta{font-size:12px; padding:7px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<header>
+  <nav>
+    <div class="logo"><span class="dot"></span>M. AMADOR</div>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="#" download>Résumé ↓</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="sheet hero" id="top">
+  <div class="sheet-label">Sheet 01 <span>/ 05 — Index</span></div>
+  <div class="eyebrow">Full-stack developer · systems-minded</div>
+  <h1>Marco Antonio<br><span class="accent">Amador.</span></h1>
+  <p class="role">Computer Science graduate building full-stack web applications and internal tooling — from PostgreSQL schema design to React interfaces to CI/CD automation.</p>
+
+  <div class="dims">
+    <div class="dim"><div class="num">4.0</div><div class="lbl">GPA · Summa Cum Laude</div></div>
+    <div class="dim"><div class="num">PERN</div><div class="lbl">Primary stack</div></div>
+    <div class="dim"><div class="num">5</div><div class="lbl">Shipped projects</div></div>
+    <div class="dim"><div class="num">TX</div><div class="lbl">Brownsville, open to relocate</div></div>
+  </div>
+
+  <div class="scroll-cue"><div class="line"></div>Scroll</div>
+</section>
+
+<!-- ABOUT / EDUCATION -->
+<section class="sheet reveal" id="about">
+  <div class="sheet-label">Sheet 02 <span>/ 05 — Background</span></div>
+  <h2 class="section-title">Background</h2>
+  <div class="section-sub">// education & focus</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>Computer Science graduate</strong> from UTRGV with hands-on experience across the full stack — designing relational schemas, building REST APIs, and shipping React interfaces — plus recent experience automating internal tooling and CI/CD workflows during an IT internship.</p>
+      <p>I care about the parts of engineering that don't show up in a demo: <strong>data integrity, access control, and systems that stay reliable under real use.</strong> I'm looking for a full-stack or systems-oriented engineering role where I can keep building things end to end.</p>
+    </div>
+    <div class="edu-card">
+      <div class="school">University of Texas Rio Grande Valley</div>
+      <div class="deg">B.S. Computer Science — May 2026</div>
+      <div class="tag-row">
+        <span class="tag amber">4.0 GPA</span>
+        <span class="tag amber">Summa Cum Laude</span>
+        <span class="tag">President's & Dean's List</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="sheet reveal projects" id="work">
+  <div class="sheet-label">Sheet 03 <span>/ 05 — Projects</span></div>
+  <h2 class="section-title">Selected work</h2>
+  <div class="section-sub">// full-stack builds & systems tooling</div>
+
+  <div class="project-list">
+    <div class="project">
+      <div class="project-index">01</div>
+      <div class="project-body">
+        <h3>Job Queue & Scheduling Dashboard <span class="stack">Node.js · Express · BullMQ · Socket.io · PostgreSQL · Redis · Docker</span></h3>
+        <ul>
+          <li><strong>Real-time job queue system</strong> for managing background jobs, with a Socket.io dashboard reflecting live job status updates.</li>
+          <li><strong>Production-style infrastructure</strong> using PostgreSQL (Neon) and Redis (Upstash) as managed services, containerized locally with Docker.</li>
+          <li>Debugged an <strong>ioredis/Upstash connection compatibility issue</strong> causing BullMQ connections to hang indefinitely, resolved by disabling ioredis's default ready-check behavior.</li>
+        </ul>
+        <div class="project-links">
+          <a href="https://github.com/Jackribbit52/job-queue" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://job-queue-static-site.onrender.com" target="_blank" rel="noopener">Live demo ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-index">02</div>
+      <div class="project-body">
+        <h3>VolunteerConnect <span class="stack">PostgreSQL · Express · React · Node.js</span></h3>
+        <ul>
+          <li><strong>Role-based access control</strong> for event creation and registration, backed by a relational PostgreSQL schema and RESTful APIs handling complex CRUD operations.</li>
+          <li><strong>JWT/bcrypt authentication</strong> with a time-sensitive encrypted-token password recovery flow.</li>
+          <li><strong>Automated capacity limits</strong> preventing event overselling, plus a React dashboard with custom time-tracking logic to verify volunteer hours.</li>
+        </ul>
+        <div class="project-links">
+          <span class="placeholder-note">Repo private — happy to share on request</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-index">03</div>
+      <div class="project-body">
+        <h3>Academic Advisor Web App <span class="stack">Team Lead · Agile/Scrum</span></h3>
+        <ul>
+          <li>Took over leadership of a stalled 4-person team project, running Agile sprint planning to bring it to on-time completion.</li>
+          <li>Full-stack academic advising platform displaying class schedules, transcripts, and degree roadmaps.</li>
+        </ul>
+        <div class="project-links">
+          <span class="placeholder-note">Repo private — happy to share on request</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-index">04</div>
+      <div class="project-body">
+        <h3>Internal Tooling & Automation <span class="stack">Python · Streamlit · SQL · CI/CD</span></h3>
+        <ul>
+          <li>Built database-driven audit tools reconciling inventory data across PostgreSQL, Microsoft Access, and Excel.</li>
+          <li>Automated build, deployment, and scheduling pipelines with GitLab, PyInstaller, and Windows Task Scheduler.</li>
+        </ul>
+        <div class="project-links">
+          <span class="placeholder-note">Internal project — no public repo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-index">05</div>
+      <div class="project-body">
+        <h3>2D/3D Game Development <span class="stack">Unity · C# · Pygame</span></h3>
+        <ul>
+          <li>Built a 3D dungeon crawler and a Galaga remake, implementing physics, animation, and gameplay systems.</li>
+        </ul>
+        <div class="project-links">
+          <span class="placeholder-note">Repo private — happy to share on request</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="sheet reveal" id="skills">
+  <div class="sheet-label">Sheet 04 <span>/ 05 — Skills</span></div>
+  <h2 class="section-title">Stack & tools</h2>
+  <div class="section-sub">// what I build with</div>
+
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="grp-title">Core Stack</div>
+      <div class="tag-row">
+        <span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
+        <span class="tag">C / C++ / C#</span><span class="tag">React</span><span class="tag">Node.js</span>
+        <span class="tag">Express</span><span class="tag">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="grp-title">Tools & Workflow</div>
+      <div class="tag-row">
+        <span class="tag">Git / GitHub / GitLab</span><span class="tag">VS Code</span>
+        <span class="tag">Agile / Scrum</span><span class="tag">Jira</span><span class="tag">Unity</span>
+        <span class="tag">Linux/Unix</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="grp-title">Also familiar with</div>
+      <div class="tag-row">
+        <span class="tag">Streamlit</span><span class="tag">Pandas</span><span class="tag">IT / Systems support</span>
+        <span class="tag">CI/CD automation</span><span class="tag">Bilingual (EN/ES)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="sheet reveal" id="experience">
+  <div class="sheet-label">Sheet 05 <span>/ 05 — Experience</span></div>
+  <h2 class="section-title">Experience</h2>
+  <div class="section-sub">// where I've worked</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="role-line">
+        <h3>IT Intern</h3>
+        <div class="when">Jun 2026 – Aug 2026</div>
+      </div>
+      <div class="org">Magic Valley Electric Co-op</div>
+      <ul>
+        <li>Built database-driven desktop and web tools (Nexus, Emergency DB) with Python, Streamlit, and Node.js.</li>
+        <li>Automated build/deploy pipelines with GitLab, PyInstaller, and Task Scheduler.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="role-line">
+        <h3>Customer Service Associate / CDL Driver</h3>
+        <div class="when">Aug 2022 – May 2026</div>
+      </div>
+      <div class="org">The University of Texas Rio Grande Valley</div>
+      <ul>
+        <li>Provided end-user technical support across computers, mobile devices, and VPN connectivity for departmental systems.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="role-line">
+        <h3>Customer Service Representative</h3>
+        <div class="when">Dec 2020 – Apr 2022</div>
+      </div>
+      <div class="org">New York State DMV</div>
+      <ul>
+        <li>Delivered Tier 1 support for 50+ clients daily with a 92% quality rating.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sheet reveal contact" id="contact">
+  <h2 class="section-title">Let's build something.</h2>
+  <p>Open to full-stack and systems-engineering roles. Reach out directly or find me on GitHub / LinkedIn.</p>
+  <div class="contact-links">
+    <a class="primary" href="mailto:jackribbit52@gmail.com">Email me</a>
+    <a href="tel:9565969778">(956) 596-9778</a>
+    <a href="https://github.com/Jackribbit52" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="https://www.linkedin.com/in/marcoamador1/" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</section>
+
+<footer>MARCO ANTONIO AMADOR — BROWNSVILLE, TX — BUILT 2026</footer>
+
+<script>
+  // reveal-on-scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // sheet corner marks (drawn via JS to keep CSS lean)
+  document.querySelectorAll('.sheet').forEach(sheet => {
+    sheet.style.setProperty('--has-corners', '1');
+  });
+</script>
+
+</body>
+</html>
